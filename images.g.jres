@@ -1,0 +1,52 @@
+{
+    "image3": {
+        "data": "hwQQABAAAAAAAAAAAAAA8AAAAAAAAADwAAAAAAAAAPAAAAAAAAAA8AAAAAAAAADwAAAAAAAAAPAAAAAAAAAA8AAAAAAAAADwAAAAAAAAAPAAAAAAAAAA8AAAAAAAAADwAAAAAAAAAPAAAAAAAAAA8AAAAAAAAADwAAAAAAAAAPAAAAAAAAAA8A==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "background"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAAAAA8B//D////w/wH/////////D/////////8P/////////w//////////D//w////8PAP//AAAAAADw8AAAAAAAAPAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerLeft"
+    },
+    "image1": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAA8AAPAAAAAADw8AAAAAAAAAD//wAAAAAA8P//D////w/w//////////D/////////8P/////////wH/////////Af/w////8PAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerRight"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw/wAAAAAAAP//DwD//wDw////8B/xD//////wH/////////Af8f//////8B/x///////wH/////////Af8Q//////AP//APD////w8AAAAP//Dw8ADwAA8P8AAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerChuncky"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAA8AAPAAAAAADw8AAAAAAAAAD//wAAAAAA8P//D////w/w//////////D/////////8P/////////wH/////////Af/w////8PAP//AAAPAAAAAAAA/wAAAAAAAPD/AAAAAAAA/w8AAAAAAPD/AAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerRightNunchucks"
+    },
+    "image6": {
+        "data": "hwQQABAAAAAAAPD/AAAAAAAAAP8PAAAAAAAA8P8AAAAAAAAA/wAAAAD//wAADwAA8B//D////w/wH/////////D/////////8P/////////w//////////D//w////8PAP//AAAAAADw8AAAAAAAAPAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerLeftNunchucks"
+    },
+    "image7": {
+        "data": "hwQQABAAAAAAAAAADwAAAAAAAPAAAAAAAAAADwAAAAAAAPAPAAAAAAAA8A8AAAAAAADwDwAAAAAAAPAPAAAAAAAA8A8AAAAAAADwDwAAAAAAAPAPAAAAAAAA8A8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage"
+    },
+    "image8": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAAAAA8PERD////w/w8RHxERER8fARERERERHx8BEREREREfHwERHxERER8fAREQ////8PAP//AAAAAADw8AAAAAAAAPAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "whiteNinjaLeft"
+    },
+    "image9": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAA8AAPAAAAAADw8AAAAAAAAAD//wAAAAAA8BERD////w/wERHxERER8fARERERERHx8BEREREREfHw8RHxERER8fDxEQ////8PAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "whiteNinjaRight"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
