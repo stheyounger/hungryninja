@@ -8,6 +8,7 @@ function isInWin (ninja: Sprite) {
     return ninja.tileKindAt(TileDirection.Center, assets.tile`end`)
 }
 function isInSpikes (ninja: Sprite) {
+    let inAnySpikes = false
     spikes.forEach(function (value: Image) {
         let inThisSpike = ninja.tileKindAt(TileDirection.Center, value)
         if (inThisSpike) {
@@ -21,7 +22,8 @@ function avgNinjaX (): number {
     ninjas.forEach(function (ninja: Sprite) {
         combinedX += ninja.x
     })
-    return combinedX / ninjas.length
+    const avgX = combinedX / ninjas.length
+    return avgX
 }
 
 function gameOver () {
@@ -55,8 +57,8 @@ class NinjaSprite extends Sprite {
 }
 function ninjaDown(ninja: NinjaSprite, message: string) {
     music.zapped.play()
-    ninja.sayText(message, 500, false, 15, 0)
-    // ninja.say(message, 500)
+    // ninja.sayText(message, 500, false, 10, 10)
+    ninja.say(message, 500)
     scene.cameraShake(4, 500)
     ninjas.removeElement(ninja)
     ninja.destroy()
@@ -124,7 +126,7 @@ function levelComplete(nextLevel: tiles.TileMapData) {
 function startLevel(level: tiles.TileMapData) {
     tiles.setCurrentTilemap(level)
     ninjas.forEach(function (ninja: Sprite) {
-        ninja.setStayInScreen(false)
+        ninja.setStayInScreen(true)
         tiles.placeOnTile(ninja, tiles.getTileLocation(1, 4))
     })
     retractableSpikes = tiles.getTilesByType(assets.image`retractSpike`)
@@ -162,6 +164,7 @@ let whiteNinjaCostumes = [assets.image`whiteNinjaRight`, assets.image`whiteNinja
 let blackNinja: NinjaSprite = new NinjaSprite(blackNinjaCostumes[0])
 let whiteNinja: NinjaSprite = new NinjaSprite(whiteNinjaCostumes[0])
 let ninjas = [blackNinja, whiteNinja]
+let initialNinjaNumber = ninjas.length + 1
 let nunchucks = sprites.create(img`
     . . 
     `, 0)
@@ -336,7 +339,7 @@ forever(function () {
             ninja.say("I'm suuper full")
         })
     }
-    if (numberOfDeadNinjas >= ninjas.length + 1) {
+    if (numberOfDeadNinjas >= initialNinjaNumber) {
         gameOver()
     }
     xControls(controller.player1, blackNinja)
