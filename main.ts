@@ -1,8 +1,8 @@
 function avgNinjaY () {
-    ninjas.forEach(function (ninja: Sprite) {
+    aliveNinjas.forEach(function (ninja: Sprite) {
         combinedY += ninja.y
     })
-return combinedY / ninjas.length
+return combinedY / aliveNinjas.length
 }
 function isInWin (ninja: Sprite) {
     return ninja.tileKindAt(TileDirection.Center, assets.tile`end`)
@@ -18,11 +18,10 @@ function isInSpikes (ninja: NinjaSprite) {
 }
 function avgNinjaX (): number {
     let combinedX = 0
-    ninjas.forEach(function (ninja: Sprite) {
-        if (ninja != null)
+    aliveNinjas.forEach(function (ninja: Sprite) {
             combinedX += ninja.x
     })
-    const avgX = combinedX / ninjas.length
+    const avgX = combinedX / aliveNinjas.length
     return avgX
 }
 
@@ -35,7 +34,6 @@ function touchingGround (ninja: Sprite) {
 class NinjaSprite extends Sprite {
     
     constructor(img: Image) {
-        // sprites.create(img, SpriteKind.Player)
         super(img)
         const scene = game.currentScene();
         const kind = SpriteKind.Player
@@ -47,6 +45,7 @@ class NinjaSprite extends Sprite {
             .filter(h => h.kind == kind)
             .forEach(h => h.handler(this));
     }
+    deathTime = 0
 
     inSpikes = false
     jumpTime = 0
@@ -57,11 +56,10 @@ class NinjaSprite extends Sprite {
 }
 function ninjaDown(ninja: NinjaSprite, message: string) {
     music.zapped.play()
-    // ninja.sayText(message, 500, false, 10, 10)
     ninja.say(message, 500)
     scene.cameraShake(4, 500)
-    ninjas.removeElement(ninja)
-    ninja.destroy()
+    aliveNinjas.removeElement(ninja)
+    ninja.deathTime = game.runtime()
 }
 function ninjaJump(ninja: NinjaSprite) {
     if (ninja.jumping == false && touchingGround(ninja)) {
@@ -80,7 +78,6 @@ function jumpHandler(ninja: NinjaSprite) {
         if (ninja.jumpTime >= maxJumpTime) {
             ninja.jumping = false
         }
-        // if (character.isHittingTile(CollisionDirection.Top)) {
         if (ninja.tileKindAt(TileDirection.Center, assets.tile`ground`)) {
             ninja.jumping = false
             ninja.vy = 0
@@ -125,7 +122,7 @@ function levelComplete(nextLevel: tiles.TileMapData) {
 }
 function startLevel(level: tiles.TileMapData) {
     tiles.setCurrentTilemap(level)
-    ninjas.forEach(function (ninja: Sprite) {
+    aliveNinjas.forEach(function (ninja: Sprite) {
         ninja.setStayInScreen(false)
         tiles.placeOnTile(ninja, tiles.getTileLocation(1, 4))
     })
@@ -146,7 +143,6 @@ function ninjaJumpControlls(controller: controller.Controller, ninja: NinjaSprit
     })
 }
 
-let numberOfDeadNinjas = 0
 let levelNumber: number = 0
 let retractableSpikes: tiles.Location[] = []
 let inDownSpikes = false
@@ -161,8 +157,8 @@ let blackNinjaCostumes = [assets.image`playerRight`, assets.image`playerLeft`]
 let whiteNinjaCostumes = [assets.image`whiteNinjaRight`, assets.image`whiteNinjaLeft`]
 let blackNinja: NinjaSprite = new NinjaSprite(blackNinjaCostumes[0])
 let whiteNinja: NinjaSprite = new NinjaSprite(whiteNinjaCostumes[0])
-let ninjas = [blackNinja, whiteNinja]
-let initialNinjaNumber = ninjas.length
+let allNinjas = [blackNinja, whiteNinja]
+let aliveNinjas = [blackNinja, whiteNinja]
 let nunchucks = sprites.create(img`
     . . 
     `, 0)
@@ -311,32 +307,17 @@ let introTexts = [introText, introText2, introText3]
 tiles.placeOnTile(nunchucks, tiles.getTileLocation(-1, 0))
 ninjaJumpControlls(controller.player1, blackNinja)
 ninjaJumpControlls(controller.player2, whiteNinja)
-ninjas.forEach(function (ninja: Sprite) {
-    ninja.onDestroyed(function () {
-        numberOfDeadNinjas++
-    })
-})
+
 startLevel(currentLevel)
-// if (levelNumber == 1) {
-// nunchucks.setImage(assets.tile`nunchuks`)
-// tiles.placeOnTile(nunchucks, tiles.getTileLocation(17, 1))
-// if (ninjas.overlapsWith(nunchucks)) {
-// hasNunchucks == true
-// nunchucks.destroy()
-// ninjas.startEffect(effects.confetti, 300)
-// music.baDing.play()
-// }
-// } else {
-// nunchucks.setImage(img``)
-// }
 forever(function () {
     scene.centerCameraAt(avgNinjaX(), avgNinjaY())
+
     xControls(controller.player1, blackNinja)
     xControls(controller.player2, whiteNinja)
-    ninjas.forEach(function (ninja: NinjaSprite) {
+
+    aliveNinjas.forEach(function (ninja: NinjaSprite) {
         if (ninja != null) {
             jumpHandler(ninja)
-
 
             if (isInSpikes(ninja)) {
                 ninjaDown(ninja, "Spikey!")
@@ -354,11 +335,18 @@ forever(function () {
     if (levelNumber == 2) {
         blackNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
         whiteNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
-        ninjas.forEach(function (ninja: Sprite) {
+        aliveNinjas.forEach(function (ninja: Sprite) {
             ninja.say("I'm suuper full")
         })
     }
-    if (numberOfDeadNinjas >= initialNinjaNumber) {
+
+    allNinjas.forEach(function (ninja: NinjaSprite) {
+        if (ninja.deathTime > 600) {
+            ninja.destroy()
+        }
+    })
+
+    if (aliveNinjas.length == 0) {
         gameOver()
     }
 })
