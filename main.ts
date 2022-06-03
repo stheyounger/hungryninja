@@ -7,20 +7,20 @@ return combinedY / ninjas.length
 function isInWin (ninja: Sprite) {
     return ninja.tileKindAt(TileDirection.Center, assets.tile`end`)
 }
-function isInSpikes (ninja: Sprite) {
-    let inAnySpikes = false
+function isInSpikes (ninja: NinjaSprite) {
     spikes.forEach(function (value: Image) {
         let inThisSpike = ninja.tileKindAt(TileDirection.Center, value)
         if (inThisSpike) {
-            inAnySpikes = true
+            ninja.inSpikes = true
         }
     })
-    return inAnySpikes
+    return ninja.inSpikes
 }
 function avgNinjaX (): number {
     let combinedX = 0
     ninjas.forEach(function (ninja: Sprite) {
-        combinedX += ninja.x
+        if (ninja != null)
+            combinedX += ninja.x
     })
     const avgX = combinedX / ninjas.length
     return avgX
@@ -48,7 +48,7 @@ class NinjaSprite extends Sprite {
             .forEach(h => h.handler(this));
     }
 
-
+    inSpikes = false
     jumpTime = 0
     jumpDistance = 0
     jumpStartTime = 0
@@ -126,7 +126,7 @@ function levelComplete(nextLevel: tiles.TileMapData) {
 function startLevel(level: tiles.TileMapData) {
     tiles.setCurrentTilemap(level)
     ninjas.forEach(function (ninja: Sprite) {
-        ninja.setStayInScreen(true)
+        ninja.setStayInScreen(false)
         tiles.placeOnTile(ninja, tiles.getTileLocation(1, 4))
     })
     retractableSpikes = tiles.getTilesByType(assets.image`retractSpike`)
@@ -155,8 +155,6 @@ let inLittleSpikes = false
 let time = 0
 let nextLevel: tiles.TileMapData = null
 let combinedY = 0
-let combinedX = 0
-let inAnySpikes = false
 let maxJumpDistance = 26
 let maxJumpTime = 310
 let blackNinjaCostumes = [assets.image`playerRight`, assets.image`playerLeft`]
@@ -164,7 +162,7 @@ let whiteNinjaCostumes = [assets.image`whiteNinjaRight`, assets.image`whiteNinja
 let blackNinja: NinjaSprite = new NinjaSprite(blackNinjaCostumes[0])
 let whiteNinja: NinjaSprite = new NinjaSprite(whiteNinjaCostumes[0])
 let ninjas = [blackNinja, whiteNinja]
-let initialNinjaNumber = ninjas.length + 1
+let initialNinjaNumber = ninjas.length
 let nunchucks = sprites.create(img`
     . . 
     `, 0)
@@ -333,15 +331,6 @@ startLevel(currentLevel)
 // }
 forever(function () {
     scene.centerCameraAt(avgNinjaX(), avgNinjaY())
-    if (levelNumber == 2) {
-        blackNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
-        ninjas.forEach(function (ninja: Sprite) {
-            ninja.say("I'm suuper full")
-        })
-    }
-    if (numberOfDeadNinjas >= initialNinjaNumber) {
-        gameOver()
-    }
     xControls(controller.player1, blackNinja)
     xControls(controller.player2, whiteNinja)
     ninjas.forEach(function (ninja: NinjaSprite) {
@@ -361,4 +350,15 @@ forever(function () {
             }
         }
     })
+
+    if (levelNumber == 2) {
+        blackNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
+        whiteNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
+        ninjas.forEach(function (ninja: Sprite) {
+            ninja.say("I'm suuper full")
+        })
+    }
+    if (numberOfDeadNinjas >= initialNinjaNumber) {
+        gameOver()
+    }
 })
