@@ -27,11 +27,10 @@ function avgNinjaX (): number {
 function hasTimePassed(ms: number, since: number): boolean {
     return game.runtime() - since >= ms
 }
-//152
 function cameraTrackNinjas() {
     let xPosition = avgNinjaX()
     let prevNinjaX = 0
-    aliveNinjas.forEach(function(ninja: Sprite) {
+    aliveNinjas.forEach(function(ninja: NinjaSprite) {
         if (ninja.x - 60 >= xPosition) {
             let distanceAdjust = 0
             let ninjaDistance = Math.abs(ninja.x - prevNinjaX)
@@ -84,6 +83,9 @@ function ninjaDown(ninja: NinjaSprite, message: string) {
 function killNinja(ninja: NinjaSprite) {
     aliveNinjas.removeElement(ninja)
     ninja.setImage(assets.image`deadNinja`)
+    ninja.vy = 0
+    ninja.vx = 0
+    // ninja.y = ninja.y
     ninja.dead = true
     ninja.deathTime = game.runtime()
 }
@@ -345,7 +347,6 @@ forever(function () {
     xControls(controller.player2, whiteNinja)
 
     aliveNinjas.forEach(function (ninja: NinjaSprite) {
-        console.log(ninja.x)
         if (ninja != null) {
             jumpHandler(ninja)
 
@@ -364,7 +365,7 @@ forever(function () {
 
     if (levelNumber >= levels.length-1) {
         blackNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
-        whiteNinjaCostumes = [assets.image`playerChuncky`, assets.image`playerChuncky`]
+        whiteNinjaCostumes = [assets.image`whiteNinjaChunky`, assets.image`whiteNinjaChunky`]
         aliveNinjas.forEach(function (ninja: Sprite) {
             ninja.say("I'm suuper full")
         })
