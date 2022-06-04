@@ -24,7 +24,26 @@ function avgNinjaX (): number {
     const avgX = combinedX / aliveNinjas.length
     return avgX
 }
+function hasTimePassed(ms: number, since: number): boolean {
+    return game.runtime() - since >= ms
+}
+//152
+function cameraTrackNinjas() {
+    let xPosition = avgNinjaX()
+    let prevNinjaX = 0
+    aliveNinjas.forEach(function(ninja: Sprite) {
+        if (ninja.x - 60 >= xPosition) {
+            let distanceAdjust = 0
+            let ninjaDistance = Math.abs(ninja.x - prevNinjaX)
+            if (ninjaDistance > 152)
+                distanceAdjust = Math.min(59, ninjaDistance - 152)
 
+            xPosition = ninja.x - 60 + distanceAdjust
+        }
+        prevNinjaX = ninja.x
+    })
+    scene.centerCameraAt(xPosition, avgNinjaY())
+}
 function gameOver () {
     pause(500)
     game.reset()
@@ -58,10 +77,13 @@ class NinjaSprite extends Sprite {
 }
 function ninjaDown(ninja: NinjaSprite, message: string) {
     music.zapped.play()
+    killNinja(ninja)
     ninja.say(message, 500)
-    ninja.setFlag(SpriteFlag.Invisible, true)
     scene.cameraShake(4, 500)
+}
+function killNinja(ninja: NinjaSprite) {
     aliveNinjas.removeElement(ninja)
+    ninja.setImage(assets.image`deadNinja`)
     ninja.dead = true
     ninja.deathTime = game.runtime()
 }
@@ -93,21 +115,23 @@ function jumpHandler(ninja: NinjaSprite) {
         ninja.vy = fallSpeed
     }
 }
-function xControls(controlls: controller.Controller, ninja: Sprite) {
-    let costumes = []
-    if (ninja == whiteNinja) {
-        costumes = whiteNinjaCostumes
-    } else
-        costumes = blackNinjaCostumes
+function xControls(controlls: controller.Controller, ninja: NinjaSprite) {
+    if (!ninja.dead) {
+        let costumes = []
+        if (ninja == whiteNinja) {
+            costumes = whiteNinjaCostumes
+        } else
+            costumes = blackNinjaCostumes
 
-    if (controlls.isPressed(ControllerButton.Left)) {
-        ninja.vx = 0 - movementSpeed
-        ninja.setImage(costumes[1])
-    } else if (controlls.isPressed(ControllerButton.Right)) {
-        ninja.vx = movementSpeed
-        ninja.setImage(costumes[0])
-    } else {
-        ninja.vx = 0
+        if (controlls.isPressed(ControllerButton.Left)) {
+            ninja.vx = 0 - movementSpeed
+            ninja.setImage(costumes[1])
+        } else if (controlls.isPressed(ControllerButton.Right)) {
+            ninja.vx = movementSpeed
+            ninja.setImage(costumes[0])
+        } else {
+            ninja.vx = 0
+        }
     }
 }
 function levelComplete(nextLevel: tiles.TileMapData) {
@@ -315,13 +339,13 @@ ninjaJumpControlls(controller.player2, whiteNinja)
 
 startLevel(currentLevel)
 forever(function () {
-
-    scene.centerCameraAt(avgNinjaX(), avgNinjaY())
+    cameraTrackNinjas()
 
     xControls(controller.player1, blackNinja)
     xControls(controller.player2, whiteNinja)
 
     aliveNinjas.forEach(function (ninja: NinjaSprite) {
+        console.log(ninja.x)
         if (ninja != null) {
             jumpHandler(ninja)
 
