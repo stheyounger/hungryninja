@@ -154,7 +154,7 @@ function startLevel(level: tiles.TileMapData) {
     tiles.setCurrentTilemap(level)
     aliveNinjas.forEach(function (ninja: Sprite) {
         ninja.setStayInScreen(false)
-        tiles.placeOnTile(ninja, tiles.getTileLocation(1, 4))
+        tiles.placeOnTile(ninja, tiles.getTilesByType(assets.tile`spawn`)[0])//tiles.getTileLocation(1, 4))
     })
     retractableSpikes = tiles.getTilesByType(assets.image`retractSpike`)
 }
@@ -197,9 +197,10 @@ let spikes = [
     assets.tile`downSpikes`,
     assets.tile`retractSpike`,
     assets.tile`leftSpike`,
-    assets.tile`rightAngleSpike`
+    assets.tile`rightAngleSpike`,
+    assets.tile`deathWall`
 ]
-let levels = [tilemap`level1`, tilemap`level2`, tilemap`level3`, tilemap`winLevel`]
+let levels = [tilemap`level1`, tilemap`level2`, tilemap`level3`, tilemap`level6`, tilemap`level7`, tilemap`winLevel`]
 let fallSpeed = 90
 let hasNunchucks = true
 let movementSpeed = 62
