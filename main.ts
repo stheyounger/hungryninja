@@ -200,7 +200,7 @@ let spikes = [
     assets.tile`rightAngleSpike`,
     assets.tile`deathWall`
 ]
-let levels = [tilemap`level1`, tilemap`level2`, tilemap`level3`, tilemap`level6`, tilemap`level7`, tilemap`winLevel`]
+let levels = [tilemap`level1`, tilemap`level2`, tilemap`level3`, /*tilemap`level6`, tilemap`level7`,*/ tilemap`winLevel`]
 let fallSpeed = 90
 let hasNunchucks = true
 let movementSpeed = 62
