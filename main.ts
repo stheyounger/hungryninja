@@ -187,7 +187,7 @@ let blackNinjaCostumes = [assets.image`playerRight`, assets.image`playerLeft`]
 let whiteNinjaCostumes = [assets.image`whiteNinjaRight`, assets.image`whiteNinjaLeft`]
 let blackNinja: NinjaSprite = new NinjaSprite(blackNinjaCostumes[0])
 let whiteNinja: NinjaSprite = new NinjaSprite(whiteNinjaCostumes[0])
-let allNinjas = [blackNinja, whiteNinja]
+let allNinjas = [blackNinja]
 let aliveNinjas = allNinjas.concat([])
 let nunchucks = sprites.create(img`
     . . 
@@ -337,7 +337,7 @@ introText3.setPosition(80, 38)
 let introTexts = [introText, introText2, introText3]
 tiles.placeOnTile(nunchucks, tiles.getTileLocation(-1, 0))
 ninjaJumpControlls(controller.player1, blackNinja)
-ninjaJumpControlls(controller.player2, whiteNinja)
+// ninjaJumpControlls(controller.player2, whiteNinja)
 // ninjaJumpControlls(controller.player3, whiteNinja2)
 
 startLevel(currentLevel)
@@ -345,7 +345,7 @@ forever(function () {
     cameraTrackNinjas()
 
     xControls(controller.player1, blackNinja)
-    xControls(controller.player2, whiteNinja)
+    // xControls(controller.player2, whiteNinja)
 
     aliveNinjas.forEach(function (ninja: NinjaSprite) {
         if (ninja != null) {
