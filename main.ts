@@ -120,9 +120,9 @@ function jumpHandler(ninja: NinjaSprite) {
 function xControls(controlls: controller.Controller, ninja: NinjaSprite) {
     if (!ninja.dead) {
         let costumes = []
-        if (ninja == whiteNinja) {
-            costumes = whiteNinjaCostumes
-        } else
+        // if (ninja == whiteNinja) {
+        //     costumes = whiteNinjaCostumes
+        // } else
             costumes = blackNinjaCostumes
 
         if (controlls.isPressed(ControllerButton.Left)) {
@@ -186,7 +186,7 @@ let maxJumpTime = 310
 let blackNinjaCostumes = [assets.image`playerRight`, assets.image`playerLeft`]
 let whiteNinjaCostumes = [assets.image`whiteNinjaRight`, assets.image`whiteNinjaLeft`]
 let blackNinja: NinjaSprite = new NinjaSprite(blackNinjaCostumes[0])
-let whiteNinja: NinjaSprite = new NinjaSprite(whiteNinjaCostumes[0])
+// let whiteNinja: NinjaSprite = new NinjaSprite(whiteNinjaCostumes[0])
 let allNinjas = [blackNinja]
 let aliveNinjas = allNinjas.concat([])
 let nunchucks = sprites.create(img`
